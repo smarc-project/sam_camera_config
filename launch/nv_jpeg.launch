@@ -1,0 +1,30 @@
+<launch>
+  <!-- This launchfile should bring up a node that broadcasts a ros image
+       transport on /webcam/image_raw -->
+
+  <arg name="sensor_id" default="2"/>
+  <!-- The GStreamer framerate needs to be an integral fraction -->
+  <arg name="FPS" default="3"/>
+  <arg name="PUBLISH_FRAME" default="false"/>
+  <arg name="WIDTH" default="1280"/>
+  <arg name="HEIGHT" default="720"/>
+  <arg name="cam_name" default="csi_cam_$(arg sensor_id)" />
+
+
+  <node ns="$(arg cam_name)" name="gscam_driver_csi" pkg="gscam" type="gscam" output="screen">
+
+ <!-- Make arguments available to parameter server -->
+  <param name="$(arg cam_name)/camera_id" type="int" value="$(arg sensor_id)" />
+  <param name="$(arg cam_name)/image_width" type="int" value="$(arg WIDTH)" />
+  <param name="$(arg cam_name)/image_height" type="int" value="$(arg HEIGHT)" />
+  <param name="$(arg cam_name)/target_fps" type="int" value="$(arg FPS)" />
+
+    <param name="camera_name" value="default"/>
+    <param name="gscam_config" value="nvarguscamerasrc sensor-id=$(arg sensor_id) ! video/x-raw(memory:NVMM), framerate=$(arg FPS)/1, width=(int)$(arg WIDTH), height=(int)$(arg HEIGHT)  ! nvjpegenc ! multipartmux ! multipartdemux ! jpegparse"/>
+    <param name="use_gst_timestamps" value="true"/>
+    <param name="image_encoding" value="jpeg"/>
+    <param name="frame_id" value="/v4l_frame"/>
+    <param name="sync_sink" value="true"/>
+  </node>
+
+</launch>
