@@ -1,0 +1,26 @@
+<launch>
+
+<arg name="namespace" default="sam"/>
+<arg name="mode" default="default"/>
+<arg name="output_path" default="/xavier_ssd/footage/video/"/>
+
+
+<include file="$(find sam_camera_config)/launch/record_single_bash.launch">
+  <arg name="sensor_id" value="0"/>
+  <arg name="filename" value="auto"/>
+  <arg name="path" value="$(arg output_path)"/>
+</include>
+
+<include file="$(find sam_camera_config)/launch/record_single_bash.launch">
+  <arg name="sensor_id" value="1"/>
+  <arg name="filename" value="auto"/>
+  <arg name="path" value="$(arg output_path)"/>
+</include>
+
+<include file="$(find sam_camera_config)/launch/record_single_bash.launch">
+  <arg name="sensor_id" value="2"/>
+  <arg name="filename" value="auto"/>
+  <arg name="path" value="$(arg output_path)"/>
+</include>
+
+</launch>

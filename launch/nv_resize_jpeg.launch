@@ -8,8 +8,8 @@
   <!-- The GStreamer framerate needs to be an integral fraction -->
   <arg name="FPS" default="30"/>
   <arg name="PUBLISH_FRAME" default="false"/>
-  <arg name="WIDTH" default="1280"/>
-  <arg name="HEIGHT" default="720"/>
+  <arg name="WIDTH" default="640"/>
+  <arg name="HEIGHT" default="360"/>
   <arg name="cam_frame" default="$(arg robot_name)/camera_down_link"/>
   
 
@@ -24,7 +24,8 @@
   <param name="$(arg cam_name)/target_fps" type="int" value="$(arg FPS)" />
 
     <param name="camera_name" value="default"/>
-    <param name="gscam_config" value="nvarguscamerasrc tnr-mode=0 sensor-id=$(arg sensor_id) ! video/x-raw(memory:NVMM), framerate=$(arg FPS)/1, width=(int)$(arg WIDTH), height=(int)$(arg HEIGHT)  ! nvjpegenc ! multipartmux ! multipartdemux ! jpegparse"/>
+    <param name="gscam_config" value="nvarguscamerasrc tnr-mode=0 sensor-id=$(arg sensor_id) ! video/x-raw(memory:NVMM), framerate=$(arg FPS)/1, width=1280, height=720! nvvidconv ! video/x-raw(memory:NVMM), 
+width=(int)$(arg WIDTH), height=(int)$(arg HEIGHT) ! nvjpegenc ! multipartmux ! multipartdemux ! jpegparse"/>
     <param name="use_gst_timestamps" value="true"/>
     <param name="image_encoding" value="jpeg"/>
     <param name="frame_id" value="$(arg cam_frame)"/>

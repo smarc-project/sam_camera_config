@@ -1,0 +1,54 @@
+<launch>
+
+    <!-- Configurable arguments -->
+    <arg name="robot_name" default="sam"/>
+    <arg name="camera_direction" default="down"/>
+    <arg name="sim" default="true"/>
+	<arg name="sensor_id" default="0" unless="$(arg sim)"/>
+    
+
+    <!-- car_depth should be the same as Mini's depth in asko_world/asko_env.scn -->
+
+
+	<!-- topics -->
+    <arg name="enhance_topic" default="/$(arg robot_name)/detection/image_enhance_$(arg camera_direction)"/>
+ 
+    <arg name="cam_image" default="/$(arg robot_name)/perception/camera_$(arg camera_direction)/image_color" if="$(arg sim)"/>
+    <arg name="cam_info" default="/$(arg robot_name)/perception/camera_$(arg camera_direction)/camera_info" if="$(arg sim)"/>
+    <arg name="dr_local_odom" default="/$(arg robot_name)/dr/local/odom/filtered"/>
+	<!-- dr_local_odm is ENU  -->
+
+	<arg name="cam_info" default="/$(arg robot_name)/perception/csi_cam_$(arg sensor_id)/camera/camera_info" unless="$(arg sim)"/>
+	<arg name="cam_image" default="/$(arg robot_name)/perception/csi_cam_$(arg sensor_id)/camera/image_raw/compressed" unless="$(arg sim)"/>
+
+	<include file="$(find sam_camera_config)/launch/nv_jpeg.launch" unless="$(arg sim)">
+		<arg name="sensor_id" value="$(arg sensor_id)"/>
+		<arg name="robot_name" value="$(arg robot_name)" />
+		
+
+        </include>
+
+
+
+	<node name="enhance_cam$(arg sensor_id)" pkg="sam_camera_config" type="enhance.py" output="screen" ns="$(arg robot_name)">
+		<param name="robot_name" value="$(arg robot_name)" />
+		<param name="camera_direction" value="$(arg camera_direction)" />
+		
+		<param name="enhance_topic" value="$(arg enhance_topic)" />
+		
+		<param name="cam_image" value="$(arg cam_image)" />
+		<param name="cam_info" value="$(arg cam_info)" />
+		<param name="dr_local_odom" value="$(arg dr_local_odom)" />
+		
+
+		<param name="sim" value="$(arg sim)" />
+
+
+
+
+
+
+	</node>
+
+    
+</launch>

@@ -1,0 +1,12 @@
+<launch>
+  <arg name="sensor_id" default="0"/>
+  <arg name="num_buffers" default="1080000"/>
+  <arg name="filename" default="auto"/>
+  <arg name="FR" default="30"/>
+  <arg name="WIDTH" default="3840"/>
+  <arg name="HEIGHT" default="2160"/>
+  <arg name="cam_name" default="csi_cam_$(arg sensor_id)" />
+  <arg name="path" default="/xavier_ssd/footage/video/"/>
+
+  <node ns="$(arg cam_name)" pkg="sam_camera_config" type="record.sh" name="cam$(arg sensor_id): record" output="screen" args="$(arg sensor_id) $(arg num_buffers) $(arg filename) $(arg FR) $(arg WIDTH) $(arg HEIGHT) $(arg path)" />
+</launch>

@@ -1,0 +1,31 @@
+<launch>
+
+  <arg name="namespace" default="sam"/>
+  <arg name="robot_name" default="sam"/>
+    <arg name="sim" default="true"/>
+
+
+  <!-- <group ns="$(arg namespace)"> -->
+    <include file="$(find sam_camera_config)/launch/enhance.launch" unless="$(arg sim)">
+      <arg name="sensor_id" value="0"/>
+      <arg name="robot_name" value="$(arg robot_name)" />
+      <arg name="camera_direction" value="down" />
+      <arg name="sim" value="$(arg sim)" />
+    </include>
+
+    <include file="$(find sam_camera_config)/launch/enhance.launch" unless="$(arg sim)">
+      <arg name="sensor_id" value="1"/>
+      <arg name="robot_name" value="$(arg robot_name)" />
+      <arg name="camera_direction" value="right" />
+      <arg name="sim" value="$(arg sim)" />
+    </include>
+
+    <include file="$(find sam_camera_config)/launch/enhance.launch" unless="$(arg sim)">
+      <arg name="sensor_id" value="2"/>
+      <arg name="robot_name" value="$(arg robot_name)" />
+      <arg name="camera_direction" value="left" />
+      <arg name="sim" value="$(arg sim)" />
+    </include>
+  <!-- </group> -->
+
+</launch>

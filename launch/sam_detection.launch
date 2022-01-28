@@ -1,0 +1,63 @@
+<launch>
+
+    <!-- Configurable arguments -->
+    <arg name="robot_name" default="sam"/>
+    <arg name="camera_direction" default="down"/>
+    <arg name="threshold" default="0.002"/>
+    <arg name="car_depth" default="10"/>
+    <arg name="sim" default="true"/>
+	<arg name="sensor_id" default="0" unless="$(arg sim)"/>
+    
+
+    <!-- car_depth should be the same as Mini's depth in asko_world/asko_env.scn -->
+
+
+	<!-- topics -->
+    <arg name="mask_topic" default="/$(arg robot_name)/detection/image_mask_$(arg camera_direction)"/>
+    <arg name="enhance_topic" default="/$(arg robot_name)/detection/image_enhance_$(arg camera_direction)"/>
+    <arg name="poi_topic" default="/$(arg robot_name)/detection/poi_$(arg camera_direction)"/>
+ 
+    <arg name="cam_image" default="/$(arg robot_name)/perception/camera_$(arg camera_direction)/image_color" if="$(arg sim)"/>
+    <arg name="cam_info" default="/$(arg robot_name)/perception/camera_$(arg camera_direction)/camera_info" if="$(arg sim)"/>
+    <arg name="dr_local_odom" default="/$(arg robot_name)/dr/local/odom/filtered"/>
+	<!-- dr_local_odm is ENU  -->
+    <arg name="cam_frame" default="$(arg robot_name)/camera_down_link"/>
+
+	<arg name="cam_info" default="/$(arg robot_name)/perception/csi_cam_$(arg sensor_id)/camera/camera_info" unless="$(arg sim)"/>
+	<arg name="cam_image" default="/$(arg robot_name)/perception/csi_cam_$(arg sensor_id)/camera/image_raw/compressed" unless="$(arg sim)"/>
+
+	<include file="$(find sam_camera_config)/launch/nv_jpeg.launch" unless="$(arg sim)">
+		<arg name="sensor_id" value="$(arg sensor_id)"/>
+		<arg name="robot_name" value="$(arg robot_name)" />
+		
+
+        </include>
+
+
+
+	<node name="detection_cam$(arg sensor_id)" pkg="sam_camera_config" type="detection.py" output="screen" ns="$(arg robot_name)">
+		<param name="robot_name" value="$(arg robot_name)" />
+		<param name="camera_direction" value="$(arg camera_direction)" />
+		<param name="threshold" value="$(arg threshold)" />
+		<param name="car_depth" value="$(arg car_depth)" />
+
+		<param name="mask_topic" value="$(arg mask_topic)" />
+		<param name="enhance_topic" value="$(arg enhance_topic)" />
+		<param name="poi_topic" value="$(arg poi_topic)" />
+
+		<param name="cam_image" value="$(arg cam_image)" />
+		<param name="cam_info" value="$(arg cam_info)" />
+		<param name="dr_local_odom" value="$(arg dr_local_odom)" />
+		<param name="cam_frame" value="$(arg cam_frame)" />
+
+		<param name="sim" value="$(arg sim)" />
+
+
+
+
+
+
+	</node>
+
+    
+</launch>
