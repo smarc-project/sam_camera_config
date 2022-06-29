@@ -5,17 +5,19 @@
 <arg name="namespace" default="sam"/>
 <arg name="mode" default="default"/>
 
-
 <include file="$(find sam_camera_config)/launch/nv_jpeg.launch">
   <arg name="sensor_id" default="0"/>
+  <arg name="cam_frame" default="sam/camera_down_link"/>
 </include>
 
 <include file="$(find sam_camera_config)/launch/nv_jpeg.launch">
   <arg name="sensor_id" default="1"/>
+  <arg name="cam_frame" default="sam/camera_front_left_link"/>
 </include>
 
 <include file="$(find sam_camera_config)/launch/nv_jpeg.launch">
   <arg name="sensor_id" default="2"/>
+  <arg name="cam_frame" default="sam/camera_front_right_link"/>
 </include>
 
 </launch>
