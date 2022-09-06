@@ -1,5 +1,7 @@
 <launch>
-  <!-- This launchfile is for start up the cameras on SAM to publish compressed jepg images to ros topic -->
+  <!--This launchfile is for start up the cameras on SAM to publish compressed jpeg
+        images to ros topic -->
+  <!--Sensors only has a few configurations, check N.B. section on README file.-->
 
   <!-- sensor_id=0 is the camera looking down, 1 is the camera on the right front, 2 is on the left front  -->
   <arg name="sensor_id" default="2"/>
@@ -9,13 +11,13 @@
   <arg name="PUBLISH_FRAME" default="false"/>
   <arg name="WIDTH" default="1280"/>
   <arg name="HEIGHT" default="720"/>
-  <arg name="cam_frame" default="sam/camera_link"/> 
+  <arg name="cam_frame" default="sam/camera_link"/>
   <arg name="cam_name" default="$(arg robot_name)/perception/csi_cam_$(arg sensor_id)" />
 
   <!-- Uncomment to publish rectified image -->
   <!--node pkg="image_proc" type="image_proc" name="csi_cam_$(arg sensor_id)_img_proc"
 	  ns="$(arg cam_name)" /-->
-  
+
   <node ns="$(arg cam_name)" name="gscam_driver_csi_$(arg sensor_id)" pkg="gscam" type="gscam" output="screen">
 
  <!-- Make arguments available to parameter server -->

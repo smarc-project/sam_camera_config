@@ -1,6 +1,5 @@
 <launch>
-  <!-- This launchfile should bring up a node that broadcasts a ros image
-       transport on /webcam/image_raw -->
+  <!--Sensors only has a few configurations, check N.B. section on README file.-->
 
   <arg name="sensor_id" default="0"/>
   <arg name="robot_name" default="sam"/>
@@ -14,7 +13,7 @@
   <arg name="cam_name" default="$(arg robot_name)/perception/csi_cam_$(arg sensor_id)" />
 
   <node ns="$(arg cam_name)" name="gscam_driver_csi_$(arg sensor_id)" pkg="gscam" type="gscam" output="screen">
-    
+
     <!-- Make arguments available to parameter server -->
   <param name="$(arg cam_name)/camera_id" type="int" value="$(arg sensor_id)" />
   <param name="$(arg cam_name)/image_width" type="int" value="$(arg WIDTH)" />
@@ -24,7 +23,6 @@
 
     <param unless="$(arg GST10)" name="gscam_config" value="nvarguscamerasrc sensor-id=$(arg sensor_id) ! video/x-raw(memory:NVMM), width=(int)$(arg WIDTH), height=(int)$(arg HEIGHT), framerate=$(arg FPS)/1 ! nvvidconv flip-method=0 ! video/x-raw,format=(string)BGRx ! videoconvert "/>
     <param if="$(arg GST10)" name="gscam_config" value="nvarguscamerasrc sensor-id=$(arg sensor_id) ! video/x-raw(memory:NVMM), width=(int)$(arg WIDTH), height=(int)$(arg HEIGHT), framerate=$(arg FPS)/1 ! nvvidconv flip-method=0 ! video/x-raw,format=(string)BGRx ! videoconvert "/>
-    
     <param name="camera_name" value="$(arg cam_name)"/>
     <param name="sync_sink" value="true"/>
     <param name="frame_id" value="$(arg frame_id)" />

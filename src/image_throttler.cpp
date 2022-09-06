@@ -1,6 +1,6 @@
 /*
  * @file image_publisher.cpp
- * @brief ROS node that rectifies the a compressed image topic.
+ * @brief ROS node that throttles the incoming image feed from SAM's cameras.
  * @data Jun 12, 2022
  * @author aldo teran (aldot@kth.se)
  */
@@ -44,6 +44,9 @@ int main(int argc, char** argv) {
   const std::string camera_info_topic = nh.resolveName("cam_info_in");
   const std::string out_image_topic = nh.resolveName("image_out");
   const std::string out_camera_info_topic = nh.resolveName("cam_info_out");
+
+  // TODO: Add adjustable FPS setting.
+  //const std::string fps_out = nh.resolveName("fps_out");
 
   ros::Subscriber cam_info_sub = nh.subscribe(camera_info_topic, 1, camera_info_callback);
   ros::Subscriber image_sub = nh.subscribe(compressed_topic, 1, image_callback);

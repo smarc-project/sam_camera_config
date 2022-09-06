@@ -58,6 +58,14 @@ One example:
 roslaunch sam_camera_config nv_jpeg.launch sensor_id:=1 HEIGHT:=360 WIDTH:=540 FPS:=15
 ```
 
+### Throttle output
+Since the output FPS of the camera sensors are constrained, we added a throttler
+node to supress the high rate. To run:
+```
+rosrun sam_camera_config image_throttler image_in:=/sam/perception/csi_cam_X/camera/IMAGE_TRANSPORT_OF_CHOICE image_out:=/same/topic/but/throttled cam_info_in:=/same/topic/but/camera_info cam_info_out:=/same/again/camera_info/throttled
+```
+where X is the sensor id, and the image transport is typically `image_raw` or `image_raw/compressed`.
+
 ## N.B.
 The `multi_nv_jpeg.launch` simply calls three `nv_jpeg.launch` with three different `sensor_id` and all the other arguments as default in the launch file `nv_jpeg.launch`, so if you were to use different arguments ohter than the default like FPS,WIDTH,HEIGHT for all three cameras, go to file `nv_jpeg.launch` in `sam_camera_config/launch` and change the default settings.
 
